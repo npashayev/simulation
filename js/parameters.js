@@ -29,7 +29,7 @@ const parameterTables = [
         maxValue: 16.2,
         currentValue: 15.9,
         probability: PROBABILITY,
-        unit: "kVa",
+        unit: "kVA",
         isChangeable: true,
         decimalPlaces: 1,
       },
@@ -105,17 +105,17 @@ const parameterTables = [
         name: "FÇ Radyatör Sıcaklığı",
         minValue: 40,
         maxValue: 42,
-        currentValue: 41,
+        currentValue: 41.0,
         probability: PROBABILITY / 4,
         unit: "℃",
         isChangeable: true,
-        decimalPlaces: 0,
+        decimalPlaces: 1,
       },
       {
         name: "Akım Dengesizliği",
         minValue: 0.2,
         maxValue: 1.1,
-        currentValue: 0.8,
+        currentValue: 0.5,
         probability: PROBABILITY,
         unit: "%",
         isChangeable: true,
@@ -124,8 +124,8 @@ const parameterTables = [
       {
         name: "Gerilim Dengesizliği",
         minValue: 0.2,
-        maxValue: 0.8,
-        currentValue: 0.3,
+        maxValue: 0.6,
+        currentValue: 0.2,
         probability: PROBABILITY,
         unit: "%",
         isChangeable: true,
@@ -139,7 +139,7 @@ const parameterTables = [
       },
       {
         name: "Türbin Dönüş Frekansı",
-        currentValue: 35,
+        currentValue: "-",
         unit: "Hz",
         isChangeable: false,
       },
@@ -161,19 +161,15 @@ const parameterTables = [
     parameters: [
       {
         name: "TMПН Çıkışında Gerilim",
-        minValue: 498,
-        maxValue: 502,
         currentValue: 500,
-        probability: PROBABILITY / 4,
         unit: "V",
-        isChangeable: true,
-        decimalPlaces: 0,
+        isChangeable: false,
       },
     ],
   },
   {
     id: "Motor",
-    tableName: "DEM - Dalgıç Elektrik Motoru",
+    tableName: "DEM - Dalma Elektrik Motoru",
     parameters: [
       {
         name: "Dönüş Yönü",
@@ -221,7 +217,7 @@ const parameterTables = [
         name: "COS(φ) - Güç Katsayısı",
         minValue: 0.48,
         maxValue: 0.5,
-        currentValue: 0.495,
+        currentValue: 0.491,
         probability: PROBABILITY,
         unit: "",
         isChangeable: true,
@@ -280,7 +276,7 @@ const parameterTables = [
         isChangeable: false,
       },
       {
-        name: "Kİ Tarih ve Saat",
+        name: "Kİ Saat",
         type: "current-time",
         unit: "",
         isChangeable: true,
@@ -439,8 +435,8 @@ const parameterTables = [
       {
         name: "Titreşim XY",
         minValue: 0.02,
-        maxValue: 0.1,
-        currentValue: 0.04,
+        maxValue: 0.16,
+        currentValue: 0.14,
         probability: PROBABILITY / 2,
         unit: "m/s²",
         isChangeable: true,
@@ -449,8 +445,8 @@ const parameterTables = [
       {
         name: "Titreşim XYZ",
         minValue: 0.02,
-        maxValue: 0.1,
-        currentValue: 0.03,
+        maxValue: 0.2,
+        currentValue: 0.17,
         probability: PROBABILITY / 2,
         unit: "m/s²",
         isChangeable: true,
@@ -579,7 +575,8 @@ function isNumericRangeParam(param) {
 function getNextValue(param) {
   const range = param.maxValue - param.minValue;
   const step =
-    range * (STEP_RANGE_MIN + Math.random() * (STEP_RANGE_MAX - STEP_RANGE_MIN));
+    range *
+    (STEP_RANGE_MIN + Math.random() * (STEP_RANGE_MAX - STEP_RANGE_MIN));
   const direction = Math.random() < 0.5 ? -1 : 1;
 
   let next = param.currentValue + direction * step;

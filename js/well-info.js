@@ -2,9 +2,9 @@ const wellInfo = {
   isOnline: true,
   isPumpWorking: true,
   oilField: "Neft Daşları",
-  cluster: "Cluster 12",
+  cluster: "12",
   wellNo: "1547",
-  stationModel: "SU-45",
+  stationModel: "IRZ-541",
 };
 
 // Simulated device latency for start/stop operations
