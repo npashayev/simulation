@@ -1,5 +1,13 @@
 const PROBABILITY = 0.2;
 
+// Change per update as a fraction of (maxValue - minValue)
+const STEP_RANGE_MIN = 0.1;
+const STEP_RANGE_MAX = 0.2;
+
+// current-time parameter is shown this many seconds behind the PC clock
+const CLOCK_LAG_SECONDS = 2;
+const TIME_PARAM_TYPES = ["current-time", "incremental-time"];
+
 const parameterTables = [
   {
     id: "ControlStation",
@@ -278,9 +286,9 @@ const parameterTables = [
         isChangeable: true,
       },
       {
-        name: "Durma/Devreye Girme Zamanlayıcısı",
+        name: "Durma / Devreye Girme Zamanlayıcısı",
         type: "incremental-time",
-        currentValue: "12:23:36",
+        initialSeconds: 44616, // 12:23:36
         unit: "",
         isChangeable: true,
       },
@@ -452,22 +460,56 @@ const parameterTables = [
   },
 ];
 
+function isTimeParam(param) {
+  return TIME_PARAM_TYPES.includes(param.type);
+}
+
+function joinTimeParts(parts) {
+  return parts.map((n) => String(n).padStart(2, "0")).join(":");
+}
+
+function formatDuration(totalSeconds) {
+  return joinTimeParts([
+    Math.floor(totalSeconds / 3600),
+    Math.floor((totalSeconds % 3600) / 60),
+    totalSeconds % 60,
+  ]);
+}
+
+// Derived from timestamps so the value stays correct even if timers are throttled
+function getTimeParamText(param) {
+  if (param.type === "current-time") {
+    const now = new Date(Date.now() - CLOCK_LAG_SECONDS * 1000);
+    return joinTimeParts([now.getHours(), now.getMinutes(), now.getSeconds()]);
+  }
+  return formatDuration(Math.floor((Date.now() - param.startedAt) / 1000));
+}
+
+function initTimeParams() {
+  parameterTables.forEach(function (table) {
+    table.parameters.forEach(function (param) {
+      if (param.type === "incremental-time") {
+        param.startedAt = Date.now() - param.initialSeconds * 1000;
+      }
+    });
+  });
+}
+
+// Returns null when there is nothing to show
+function getParamDisplayValue(param) {
+  if (isTimeParam(param)) return getTimeParamText(param);
+  if (param.currentValue == null) return null;
+
+  // Display precision comes from decimalPlaces; the stored value stays unrounded
+  return typeof param.currentValue === "number"
+    ? param.currentValue.toFixed(param.decimalPlaces ?? 0)
+    : param.currentValue;
+}
+
 function formatParamValue(param) {
-  if (param.currentValue === null || param.currentValue === undefined) {
-    return "-";
-  }
-  let valStr;
-  if (typeof param.currentValue === "number") {
-    if (param.maxValue !== null && param.maxValue <= 1.0) {
-      valStr = param.currentValue.toFixed(2);
-    } else if (Number.isInteger(param.currentValue)) {
-      valStr = param.currentValue.toString();
-    } else {
-      valStr = param.currentValue.toFixed(1);
-    }
-  } else {
-    valStr = param.currentValue;
-  }
+  const valStr = getParamDisplayValue(param);
+  if (valStr === null) return "-";
+
   return param.unit ? valStr + " " + param.unit : String(valStr);
 }
 
@@ -524,47 +566,59 @@ function renderParameterTables() {
     .join("");
 }
 
-function updateParameters() {
-  const UPDATE_PROBABILITY = 0.25; // 40% chance to update each changeable parameter
+function isNumericRangeParam(param) {
+  return (
+    param.isChangeable &&
+    typeof param.currentValue === "number" &&
+    Number.isFinite(param.minValue) &&
+    Number.isFinite(param.maxValue)
+  );
+}
 
+// Moves the value by 10-20% of (max - min), reflecting at the bounds
+function getNextValue(param) {
+  const range = param.maxValue - param.minValue;
+  const step =
+    range * (STEP_RANGE_MIN + Math.random() * (STEP_RANGE_MAX - STEP_RANGE_MIN));
+  const direction = Math.random() < 0.5 ? -1 : 1;
+
+  let next = param.currentValue + direction * step;
+  if (next < param.minValue || next > param.maxValue) {
+    next = param.currentValue - direction * step;
+  }
+  return Math.min(param.maxValue, Math.max(param.minValue, next));
+}
+
+// In-place DOM update keeps table scroll positions
+function updateParameterCell(tableId, pIndex, param) {
+  const cell = document.querySelector(
+    '[data-param-val="' + tableId + "-" + pIndex + '"]',
+  );
+  if (cell) cell.textContent = formatParamValue(param);
+}
+
+function updateParameters() {
   parameterTables.forEach(function (table) {
     table.parameters.forEach(function (param, pIndex) {
-      // Rule 2: If isChangeable is false, do not dynamically change the currentValue at all
       if (!param.isChangeable) return;
 
-      if (Math.random() < UPDATE_PROBABILITY) {
-        if (
-          param.minValue !== null &&
-          param.maxValue !== null &&
-          typeof param.currentValue === "number"
-        ) {
-          const range = param.maxValue - param.minValue;
-          // Random variation between 0.5% and 2.5% of range
-          const factor = 0.005 + Math.random() * 0.02;
-          const sign = Math.random() < 0.5 ? -1 : 1;
-          let nextVal = param.currentValue + sign * (range * factor);
-
-          // Clamp strictly within [minValue, maxValue]
-          nextVal = Math.max(param.minValue, Math.min(param.maxValue, nextVal));
-
-          // Rule 3: Keep current value as a number in isChangeable: true objects
-          const decimals = param.maxValue <= 1.0 ? 2 : 1;
-          param.currentValue = Number(nextVal.toFixed(decimals));
-
-          // Smooth in-place DOM update (preserves table scroll positions)
-          const cell = document.querySelector(
-            '[data-param-val="' + table.id + "-" + pIndex + '"]',
-          );
-          if (cell) {
-            cell.textContent = formatParamValue(param);
-          }
-        }
+      // Time parameters refresh every tick
+      if (isTimeParam(param)) {
+        updateParameterCell(table.id, pIndex, param);
+        return;
       }
+
+      if (!isNumericRangeParam(param)) return;
+      if (Math.random() >= (param.probability ?? 0)) return;
+
+      param.currentValue = getNextValue(param);
+      updateParameterCell(table.id, pIndex, param);
     });
   });
 }
 
 document.addEventListener("DOMContentLoaded", function () {
+  initTimeParams();
   renderParameterTables();
   setInterval(updateParameters, 1000);
 });

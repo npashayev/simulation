@@ -209,6 +209,10 @@
   }
 }
 
+.bubbles-cnr--hidden {
+  display: none;
+}
+
 @media (max-width: 962px) {
   .bubbles-cnr {
     display: none;

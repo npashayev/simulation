@@ -19,11 +19,17 @@
   border-radius: 2px;
   width: 100%;
   line-height: 1;
+  cursor: pointer;
   transition: background-color 0.15s, border-color 0.15s;
 }
 
-.pump-control__btn:active {
+.pump-control__btn:active:not(:disabled) {
   opacity: 0.8;
+}
+
+.pump-control__btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
 }
 
 /* AppButton dark primary: dark:text-emerald-400 dark:bg-emerald-950 dark:border-emerald-700 hover:dark:bg-emerald-900/60 */
@@ -33,7 +39,7 @@
   border: 1px solid #047857;
 }
 
-.pump-control__btn--primary:hover {
+.pump-control__btn--primary:hover:not(:disabled) {
   background-color: rgba(6, 78, 59, 0.6);
   border-color: #059669;
 }
@@ -45,21 +51,9 @@
   border: 1px solid #991b1b;
 }
 
-.pump-control__btn--danger:hover {
+.pump-control__btn--danger:hover:not(:disabled) {
   background-color: #7f1d1d;
   border-color: #b91c1c;
-}
-
-/* AppButton dark info: dark:text-sky-400 dark:bg-sky-950 dark:border-sky-800 hover:dark:bg-sky-900 */
-.pump-control__btn--info {
-  color: #38bdf8;
-  background-color: #082f49;
-  border: 1px solid #075985;
-}
-
-.pump-control__btn--info:hover {
-  background-color: #0c4a6e;
-  border-color: #0284c7;
 }
 
 @media (max-width: 480px) {
