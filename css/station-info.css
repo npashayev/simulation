@@ -59,3 +59,10 @@
   padding-right: 50px;
   font-weight: bold;
 }
+
+@media (min-width: 1536px) and (max-width: 1919.98px) {
+  .station-info__image-cnr {
+    margin-top: 8px;
+    height: 210px;
+  }
+}

@@ -99,6 +99,14 @@
   align-self: stretch;
 }
 
+/* 1536px laptops: tighter box so the sidebar fits without feeling cramped */
+@media (min-width: 1536px) and (max-width: 1919.98px) {
+  .well-info {
+    padding-block: 10px;
+    min-height: 180px;
+  }
+}
+
 @media (max-width: 640px) {
   .well-info {
     padding: 16px;
