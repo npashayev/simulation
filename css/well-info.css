@@ -1,0 +1,135 @@
+.well-info {
+  border-left: 5px solid #3DBA7E;
+  flex-shrink: 0;
+  padding: 16px 20px;
+  min-height: 240px;
+  display: flex;
+  align-items: stretch;
+  gap: 32px;
+  justify-content: space-between;
+}
+
+.well-info--online {
+  background: linear-gradient(to bottom right, #0d4f26, #155e32);
+  color: #f9f9f9;
+  border-color: #2D6A4A;
+  border-left-color: #3DBA7E;
+}
+
+.well-info--offline {
+  background-color: #2a2a28;
+  color: #f9f9f9;
+  border-color: #2D6A4A;
+  border-left-color: #3DBA7E;
+}
+
+.well-info__details {
+  flex-shrink: 0;
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.well-info__details p {
+  line-height: 1.625;
+}
+
+.well-info__badge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background-color: #E2E2E2;
+  width: max-content;
+  color: #000;
+  padding: 4px 10px;
+  border-radius: 9999px;
+  font-size: 12px;
+  font-weight: 500;
+  margin-bottom: 24px;
+}
+
+.well-info__status-dot {
+  height: 10px;
+  width: 10px;
+  border-radius: 50%;
+  background-color: #6b6b67;
+}
+
+.well-info__status-dot--online {
+  background-color: #2E9362;
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.well-info__list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.well-info__item {
+  display: flex;
+  gap: 8px;
+  align-items: baseline;
+}
+
+.well-info__label {
+  color: #82d9a9;
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+.well-info__value {
+  color: #f9f9f9;
+  font-size: 14px;
+}
+
+.well-info__divider {
+  width: 1px;
+  background-color: #2D6A4A;
+  align-self: stretch;
+}
+
+@media (max-width: 640px) {
+  .well-info {
+    padding: 16px;
+    min-height: 180px;
+    gap: 12px;
+  }
+
+  .well-info__label,
+  .well-info__value {
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .well-info {
+    flex-direction: column;
+    min-height: 0;
+    height: auto;
+    gap: 16px;
+  }
+
+  .well-info__details {
+    width: 100%;
+  }
+
+  .well-info__badge {
+    margin-bottom: 16px;
+  }
+
+  .well-info__divider {
+    width: 100%;
+    height: 1px;
+  }
+}

@@ -1,0 +1,12 @@
+.navbar {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  background-color: var(--surface-sunken);
+  height: var(--navbar-height);
+  z-index: var(--navbar-index);
+  border-bottom: 2px solid var(--border-strong);
+  display: flex;
+  align-items: center;
+}

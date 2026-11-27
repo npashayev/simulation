@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Main Parameters | DNMIS</title>
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+/>
+  <!-- CSS -->
+  <link rel="stylesheet" href="css/reset.css" />
+  <link rel="stylesheet" href="css/variables.css" />
+  <link rel="stylesheet" href="css/layout.css" />
+  <link rel="stylesheet" href="css/navbar.css" />
+  <link rel="stylesheet" href="css/toolbar.css" />
+  <link rel="stylesheet" href="css/second-menu-parameters.css" />
+  <link rel="stylesheet" href="css/parameter-table.css" />
+  <link rel="stylesheet" href="css/bubbles.css" />
+  <link rel="stylesheet" href="css/well-sidebar.css" />
+  <link rel="stylesheet" href="css/well-info.css" />
+  <link rel="stylesheet" href="css/station-info.css" />
+  <link rel="stylesheet" href="css/pump-control.css" />
+  <link rel="stylesheet" href="css/scrollbar.css" />
+</head>
+<body class="dark">
+
+  <!-- ========== NAVBAR ========== -->
+  <header class="navbar">
+  </header>
+
+  <!-- ========== MAIN PAGE ========== -->
+  <main class="page">
+
+    <!-- Left content area -->
+    <div class="page__content">
+
+      <!-- Empty Toolbar -->
+      <div class="toolbar"></div>
+
+      <!-- SecondMenuParameters -->
+      <div class="second-menu">
+        <div class="second-menu__system-cnr">
+
+          <!-- System image -->
+          <div class="second-menu__image-cnr">
+            <img
+              src="images/system.webp"
+              alt="system"
+              class="second-menu__system-image"
+            />
+          </div>
+
+          <!-- Parameter tables container (rendered via js/parameters.js) -->
+          <div id="parameterTablesContainer" class="parameter-tables-cnr"></div>
+
+          <!-- Bubbles -->
+          <div class="bubbles-cnr">
+            <div class="bubble"></div>
+            <div class="bubble"></div>
+            <div class="bubble"></div>
+            <div class="bubble"></div>
+            <div class="bubble"></div>
+            <div class="bubble"></div>
+            <div class="bubble"></div>
+            <div class="bubble"></div>
+            <div class="bubble"></div>
+            <div class="bubble"></div>
+            <div class="bubble"></div>
+            <div class="bubble"></div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ========== WELL SIDEBAR ========== -->
+    <aside class="well-sidebar" id="wellSidebar">
+      <button
+        class="well-sidebar__toggle"
+        id="sidebarToggle"
+        aria-label="Open sidebar"
+      >
+        <i class="fa-solid fa-angle-right well-sidebar__chevron" id="sidebarChevron"></i>
+      </button>
+
+      <!-- WellInfo (rendered via js/well-info.js) -->
+      <div id="wellInfoContainer"></div>
+
+      <!-- StationInfo (rendered via js/station-info.js) -->
+      <div class="station-info" id="stationInfoContainer"></div>
+
+    </aside>
+  </main>
+
+  <!-- JS -->
+  <script src="js/parameters.js"></script>
+  <script src="js/well-info.js"></script>
+  <script src="js/station-info.js"></script>
+  <script src="js/sidebar.js"></script>
+</body>
+</html>

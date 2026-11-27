@@ -1,0 +1,118 @@
+.second-menu {
+  flex-grow: 1;
+  min-height: 0;
+  display: flex;
+  justify-content: center;
+}
+
+.second-menu__system-cnr {
+  position: relative;
+  height: 100%;
+}
+
+.parameter-tables-cnr {
+  position: static;
+}
+
+.second-menu__image-cnr {
+  position: relative;
+  height: 100%;
+  width: auto;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.second-menu__system-image {
+  display: block;
+  height: 100%;
+  width: auto;
+  object-fit: cover;
+  object-position: center;
+}
+
+.second-menu__table-cnr {
+  width: max-content;
+  border-radius: 0.45rem;
+  overflow: hidden;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.55);
+  position: absolute;
+  overflow-y: auto;
+}
+
+.second-menu__table-cnr[data-name="Tmpn"] {
+  top: 5%;
+  right: 107%;
+  max-height: 13%;
+}
+
+.second-menu__table-cnr[data-name="CurrentStatus"] {
+  top: 22%;
+  right: 107%;
+  max-height: 30%;
+}
+
+.second-menu__table-cnr[data-name="Motor"] {
+  bottom: 4%;
+  right: 107%;
+  max-height: 40%;
+}
+
+.second-menu__table-cnr[data-name="ControlStation"] {
+  top: 5%;
+  left: 107%;
+  max-height: 40%;
+}
+
+.second-menu__table-cnr[data-name="Tms"] {
+  bottom: 4%;
+  left: 107%;
+  max-height: 44%;
+}
+
+@media (max-width: 962px) {
+  .second-menu {
+    overflow-y: auto;
+    min-height: 0;
+  }
+
+  .second-menu__system-cnr {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow-y: auto;
+    padding: 16px;
+    height: auto;
+    width: 100%;
+    max-width: 800px;
+  }
+
+  .second-menu__image-cnr {
+    display: none;
+  }
+
+  .parameter-tables-cnr {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 100%;
+  }
+
+  .second-menu__table-cnr {
+    position: static;
+    width: 100%;
+    max-height: none;
+    overflow-y: visible;
+  }
+
+  .second-menu__table-cnr[data-name="Tmpn"],
+  .second-menu__table-cnr[data-name="CurrentStatus"],
+  .second-menu__table-cnr[data-name="Motor"],
+  .second-menu__table-cnr[data-name="ControlStation"],
+  .second-menu__table-cnr[data-name="Tms"] {
+    top: auto;
+    right: auto;
+    bottom: auto;
+    left: auto;
+    max-height: none;
+  }
+}

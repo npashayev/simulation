@@ -1,0 +1,30 @@
+:root {
+  --navbar-height: 45px;
+
+  /* Surfaces (dark) */
+  --surface-base: #111110;
+  --surface-sunken: #161614;
+  --surface-default: #1f1f1e;
+  --surface-raised: #262625;
+  --surface-overlay: #2c2c2e;
+  --surface-float: #31312e;
+  --surface-warm: #423c3c;
+
+  /* Text */
+  --text-primary: #f0f0ec;
+  --text-secondary: #a8a89e;
+  --text-muted: #787870;
+  --text-disabled: #4a4a46;
+  --text-accent: #4ade80;
+  --text-error: #f87171;
+
+  /* Borders */
+  --border-faint: #52524d;
+  --border-subtle: #2e2e2c;
+  --border-default: #333330;
+  --border-strong: #35352e;
+
+  /* Z-indexes */
+  --navbar-index: 100;
+  --sidebar-index: 50;
+}
