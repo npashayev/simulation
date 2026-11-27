@@ -519,9 +519,7 @@ function renderParameterTables() {
         .map(function (param, pIndex) {
           return (
             "<tr>" +
-            '<td title="' +
-            param.name +
-            '">' +
+            "<td>" +
             param.name +
             "</td>" +
             '<td data-param-val="' +
@@ -591,7 +589,13 @@ function updateParameterCell(tableId, pIndex, param) {
   const cell = document.querySelector(
     '[data-param-val="' + tableId + "-" + pIndex + '"]',
   );
-  if (cell) cell.textContent = formatParamValue(param);
+  if (!cell) return;
+
+  // The marquee may have wrapped the text in .cell-text; keep that wrapper intact
+  const textTarget = cell.querySelector(":scope > .cell-text") ?? cell;
+  const text = formatParamValue(param);
+  textTarget.textContent = text;
+  if ("text" in textTarget.dataset) textTarget.dataset.text = text; // marquee copy
 }
 
 function updateParameters() {

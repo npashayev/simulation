@@ -1,0 +1,29 @@
+/* Endless marquee for truncated table cells; only while hovered and only if motion is allowed */
+@media (prefers-reduced-motion: no-preference) {
+  /* Selectors are specific enough to beat the cells' text-overflow: ellipsis */
+  .second-menu__table-cnr td.is-marquee,
+  .station-info__table-cnr td.is-marquee {
+    text-overflow: clip;
+  }
+
+  /* inline-block is needed for transform; it is only set while animating so the ellipsis works when idle */
+  .second-menu__table-cnr td.is-marquee > .cell-text,
+  .station-info__table-cnr td.is-marquee > .cell-text {
+    display: inline-block;
+    animation: cell-marquee var(--marquee-duration) linear infinite;
+  }
+
+  /* Copy of the text that follows the original, so new text enters from the right */
+  .second-menu__table-cnr td.is-marquee > .cell-text::after,
+  .station-info__table-cnr td.is-marquee > .cell-text::after {
+    content: attr(data-text);
+    padding-left: var(--marquee-gap);
+  }
+}
+
+/* Moving by one text + gap puts the copy exactly where the original started: seamless loop */
+@keyframes cell-marquee {
+  to {
+    transform: translateX(calc(-1 * var(--marquee-distance)));
+  }
+}

@@ -16,7 +16,9 @@
 
 .second-menu__image-cnr {
   position: relative;
-  height: 100%;
+  /* 8px margin top and bottom; height is reduced by the same 16px so it still fits its parent */
+  margin-block: 8px;
+  height: calc(100% - 16px);
   width: auto;
   border-radius: 4px;
   overflow: hidden;
